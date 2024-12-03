@@ -12,7 +12,7 @@
     <artifactId>leaf-base-seata</artifactId>
 
     <properties>
-        <seata.spring.boot.starter.version>2.1.0</seata.spring.boot.starter.version>
+        <!--<seata.spring.boot.starter.version>2.1.0</seata.spring.boot.starter.version>-->
     </properties>
 
     <dependencies>

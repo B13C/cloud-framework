@@ -13,7 +13,7 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.*;
-import cn.hutool.http.HtmlUtil;
+import cn.hutool.http.*;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.maple.core.framework.constant.GXCommonConstant;
@@ -32,9 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -638,15 +635,12 @@ public class GXCommonUtils {
      */
     public static Integer checkURLReachable(String urlString) {
         try {
-            URL url = new URI(urlString).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("HEAD");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            HttpRequest request = HttpUtil.createRequest(cn.hutool.http.Method.GET, urlString);
+            HttpResponse response = request.execute();
+            int responseCode = response.getStatus();
+            if (responseCode == HttpStatus.HTTP_OK) {
                 LOG.info("URL is reachable");
-                return HttpURLConnection.HTTP_OK;
+                return HttpStatus.HTTP_OK;
             } else {
                 LOG.info("URL is not reachable . URL returned status code : {}", responseCode);
                 return responseCode;

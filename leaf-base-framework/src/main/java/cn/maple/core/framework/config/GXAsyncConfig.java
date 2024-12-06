@@ -50,7 +50,8 @@ public class GXAsyncConfig implements AsyncConfigurer {
                 errors.add(CharSequenceUtil.format("Parameter value - {}", param));
             }
             errors.add("--------------Maple Leaf FrameWork异步调用，异常捕获--------------");
-            log.error(() -> CollUtil.join(errors, System.lineSeparator()));
+            String errorMsg = CollUtil.join(errors, System.lineSeparator());
+            log.error(errorMsg, throwable);
         };
     }
 }

@@ -18,8 +18,6 @@ public class GXExtensionRepository {
      * 扩展点缓存对象
      * -- GETTER --
      * 获取扩展点缓存对象
-     *
-     * @return Map
      */
     private final Map<GXExtensionCoordinate, GXExtensionPoint> extensionRepo = new ConcurrentHashMap<>();
 }

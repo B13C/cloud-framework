@@ -22,7 +22,7 @@ public class GXExtensionExecutor extends GXAbstractComponentExecutor {
     @Override
     protected <C> C locateComponent(Class<C> targetClz, GXBizScenario bizScenario) {
         C extension = locateExtension(targetClz, bizScenario);
-        log.debug("[Located Extension]: " + extension.getClass().getSimpleName());
+        log.debug("[Located Extension]: {}", extension.getClass().getSimpleName());
         return extension;
     }
 
@@ -42,7 +42,7 @@ public class GXExtensionExecutor extends GXAbstractComponentExecutor {
 
         E extension;
 
-        log.debug("BizScenario in locateExtension is : " + bizScenario.getUniqueIdentity());
+        log.debug("BizScenario in locateExtension is : {}", bizScenario.getUniqueIdentity());
 
         // 1、 first try with full namespace
         extension = firstTry(targetClz, bizScenario);
@@ -72,7 +72,7 @@ public class GXExtensionExecutor extends GXAbstractComponentExecutor {
      * example:  biz1.useCase1.scenario1
      */
     private <E> E firstTry(Class<E> targetClz, GXBizScenario bizScenario) {
-        log.debug("First trying with " + bizScenario.getUniqueIdentity());
+        log.debug("First trying with {}", bizScenario.getUniqueIdentity());
         return locate(targetClz.getName(), bizScenario.getUniqueIdentity());
     }
 
@@ -82,7 +82,7 @@ public class GXExtensionExecutor extends GXAbstractComponentExecutor {
      * example:  biz1.useCase1.#defaultScenario#
      */
     private <E> E secondTry(Class<E> targetClz, GXBizScenario bizScenario) {
-        log.debug("Second trying with " + bizScenario.getIdentityWithDefaultScenario());
+        log.debug("Second trying with {}", bizScenario.getIdentityWithDefaultScenario());
         return locate(targetClz.getName(), bizScenario.getIdentityWithDefaultScenario());
     }
 
@@ -92,7 +92,7 @@ public class GXExtensionExecutor extends GXAbstractComponentExecutor {
      * example:  biz1.#defaultUseCase#.#defaultScenario#
      */
     private <E> E defaultUseCaseTry(Class<E> targetClz, GXBizScenario bizScenario) {
-        log.debug("Third trying with " + bizScenario.getIdentityWithDefaultUseCase());
+        log.debug("Third trying with {}", bizScenario.getIdentityWithDefaultUseCase());
         return locate(targetClz.getName(), bizScenario.getIdentityWithDefaultUseCase());
     }
 

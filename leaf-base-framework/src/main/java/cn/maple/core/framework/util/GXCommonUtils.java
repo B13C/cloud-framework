@@ -23,6 +23,9 @@ import cn.maple.core.framework.dto.inner.condition.GXCondition;
 import cn.maple.core.framework.exception.GXBeanValidateException;
 import cn.maple.core.framework.exception.GXBusinessException;
 import cn.maple.core.framework.exception.GXConvertException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Table;
 import com.google.common.reflect.TypeToken;
 import lombok.Getter;
@@ -123,11 +126,23 @@ public class GXCommonUtils {
      * @return <R>
      */
     public static <R> R getEnvironmentValue(String key, Class<R> clazzType) {
-        final R envValue = GXSpringContextUtils.getEnvironment().getProperty(key, clazzType);
-        if (null == envValue) {
-            return getClassDefaultValue(clazzType);
+        boolean simpleValueType = ClassUtil.isSimpleValueType(clazzType);
+        if (simpleValueType) {
+            final R envValue = GXSpringContextUtils.getEnvironment().getProperty(key, clazzType);
+            if (null == envValue) {
+                return getClassDefaultValue(clazzType);
+            }
+            return envValue;
         }
-        return envValue;
+        String envValue = GXSpringContextUtils.getEnvironment().getProperty(key, String.class);
+        ObjectMapper objectMapper = GXSpringContextUtils.getBean(ObjectMapper.class);
+        try {
+            assert objectMapper != null;
+            return objectMapper.readValue(envValue, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException exception) {
+            throw new GXConvertException(exception);
+        }
     }
 
     /**

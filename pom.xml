@@ -42,7 +42,7 @@
         <aspectjweaver.version>1.9.22.1</aspectjweaver.version>
         <guava.version>33.4.0-jre</guava.version>
         <caffeine.version>3.1.8</caffeine.version>
-        <fastjson.version>2.0.53</fastjson.version>
+        <fastjson.version>2.0.54</fastjson.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <spring-boot.version>3.4.1</spring-boot.version>

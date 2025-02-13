@@ -17,6 +17,10 @@ import java.util.Objects;
 
 /**
  * 线程数据源切换处理类
+ *
+ * 在使用数据源切换时
+ * 1. 如果调用的是项目内的功能， 需要在XXXRepository上添加@GXDataSource("other")
+ * 2. 如果需要调用MyBatis Plus封装的功能 ，需要在XXXService上添加@GXDataSource("other")
  */
 @Aspect
 @Component

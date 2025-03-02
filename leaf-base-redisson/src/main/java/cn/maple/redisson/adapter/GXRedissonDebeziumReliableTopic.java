@@ -60,7 +60,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 注意: 数字会被Base64编码 所以需要进行解码
  * NumberUtil.fromUnsignedByteArray(Base64Decoder.decode("AIlUQA==")) 解码成 9000000
  */
-public class GXRedissonDebeziumReliableTopic extends RedissonReliableTopic {
+public class GXRedissonDebeziumReliableTopic {/*extends RedissonReliableTopic {
     private static final Logger log = LoggerFactory.getLogger(GXRedissonDebeziumReliableTopic.class);
     private final Map<String, Entry> listeners = new ConcurrentHashMap<>();
     private final String subscriberId;
@@ -252,5 +252,5 @@ public class GXRedissonDebeziumReliableTopic extends RedissonReliableTopic {
         public MessageListener<?> getListener() {
             return listener;
         }
-    }
+    }*/
 }

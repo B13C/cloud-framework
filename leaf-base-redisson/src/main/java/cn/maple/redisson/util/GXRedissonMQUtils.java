@@ -1,11 +1,14 @@
 package cn.maple.redisson.util;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.maple.core.framework.util.GXSpringContextUtils;
 import cn.maple.redisson.adapter.GXRedissonDebeziumReliableTopic;
 import org.redisson.Redisson;
 import org.redisson.api.RFuture;
 import org.redisson.api.RReliableTopic;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.Codec;
+import org.redisson.client.codec.StringCodec;
 import org.redisson.command.CommandAsyncExecutor;
 
 import java.util.concurrent.ExecutionException;
@@ -49,12 +52,15 @@ public class GXRedissonMQUtils {
      *
      * @param redissonMQClient Redisson客户端对象
      * @param name             topic的名字
-     * @param subscriberId     订阅ID
-     * @return GXRedissonDebeziumReliableTopic
+     * @param codec            消息编码
+     * @return RReliableTopic
      */
-    public static GXRedissonDebeziumReliableTopic getDebeziumReliableTopic(RedissonClient redissonMQClient, String name, String subscriberId) {
+    public static RReliableTopic getDebeziumReliableTopic(RedissonClient redissonMQClient, String name, Codec codec) {
         CommandAsyncExecutor commandExecutor = ((Redisson) redissonMQClient).getCommandExecutor();
-        return new GXRedissonDebeziumReliableTopic(commandExecutor, name, subscriberId);
+        if (ObjectUtil.isNull(codec)) {
+            codec = redissonMQClient.getConfig().getCodec();
+        }
+        return redissonMQClient.getReliableTopic(name, codec);
     }
 
     /**
@@ -62,9 +68,10 @@ public class GXRedissonMQUtils {
      *
      * @param redissonMQClient Redisson客户端对象
      * @param name             topic的名字
-     * @return GXRedissonDebeziumReliableTopic
+     * @return RReliableTopic
      */
-    public static GXRedissonDebeziumReliableTopic getDebeziumReliableTopic(RedissonClient redissonMQClient, String name) {
-        return getDebeziumReliableTopic(redissonMQClient, name, null);
+    public static RReliableTopic getDebeziumReliableTopic(RedissonClient redissonMQClient, String name) {
+        Codec codec = redissonMQClient.getConfig().getCodec();
+        return getDebeziumReliableTopic(redissonMQClient, name, codec);
     }
 }
